@@ -3,7 +3,16 @@ import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthCOntext/AuthContext";
 
 const NavBar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, signOutUser } = useContext(AuthContext);
+  const handleSignOut = () => {
+    signOutUser()
+      .then((res) => {
+        console.log("Succesfull Sign Out");
+      })
+      .catch((e) => {
+        console.log("faild to sign out", e.message);
+      });
+  };
   const links = (
     <>
       <li>
@@ -49,7 +58,9 @@ const NavBar = () => {
       <div className="navbar-end">
         {user ? (
           <>
-            <button className="btn">Log Out</button>
+            <button onClick={handleSignOut} className="btn">
+              Sign Out
+            </button>
           </>
         ) : (
           <>
