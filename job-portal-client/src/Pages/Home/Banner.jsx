@@ -23,7 +23,7 @@ const Banner = () => {
           <motion.img
             src={team2}
             animate={{x:[100,120,100]}}
-            transition={{duration: 10 , repeat: Infinity}}
+            transition={{duration: 10 ,  delay: 5, repeat: Infinity}}
             className="max-w-sm w-64 rounded-t-[40px] rounded-br-[40px] border-l-4  border-b-4 border-[#581845] shadow-2xl"
           />
         </div>
