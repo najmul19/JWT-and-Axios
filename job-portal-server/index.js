@@ -42,8 +42,8 @@ async function run() {
       // update for reqruiter
       const email = req.query.email;
       let query = {};
-      if(email){
-        query={hr_email: email}
+      if (email) {
+        query = { hr_email: email };
       }
       const cursor = jobsCollections.find(query);
       const result = await cursor.toArray();
@@ -86,6 +86,30 @@ async function run() {
       const application = req.body;
       const result = await jobApplicationCollections.insertOne(application);
       // update for count job
+      // not the best way
+      const id = application.job_id;
+      const query = { _id: new ObjectId(id) };
+      const job = await jobsCollections.findOne(query);
+      // console.log(job);
+      let newCount = 0;
+      if (job.applicationCount) {
+        newCount = job.applicationCount + 1;
+      } else {
+        newCount = 1;
+      }
+
+      // now update the job info
+
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          applicationCount: newCount,
+        },
+      };
+
+      const updateResult = await jobsCollections.updateOne(filter, updatedDoc);
+      
+
       res.send(result);
     });
   } finally {
