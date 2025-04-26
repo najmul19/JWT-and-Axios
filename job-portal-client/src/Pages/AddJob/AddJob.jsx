@@ -1,10 +1,18 @@
 import React from "react";
 
 const AddJob = () => {
+  const handleAddJob = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    // console.log(formData.entries());
+    const initialData = Object.fromEntries(formData.entries());//formData.entries() key valu and Object.fromEntries convert it in object from array of array
+    console.log(initialData);
+   
+  };
   return (
     <div>
       <h2 className="text-2xl">Add Job</h2>
-      <form className="card-body">
+      <form onSubmit={handleAddJob} className="card-body">
         {/* title */}
         <div className="form-control">
           <label className="label">
@@ -99,15 +107,16 @@ const AddJob = () => {
           <label className="label">
             <span className="label-text">Job Description</span>
           </label>
-         
+
           <textarea
             className="textarea textarea-bordered w-full"
-            placeholder="Job Description" name="description"
+            placeholder="Job Description"
+            name="description"
           ></textarea>
         </div>
 
-         {/* company */}
-         <div className="form-control">
+        {/* company */}
+        <div className="form-control">
           <label className="label">
             <span className="label-text">Company Name</span>
           </label>
@@ -120,15 +129,16 @@ const AddJob = () => {
           />
         </div>
 
-         {/* requiremnts */}
-         <div className="form-control">
+        {/* requiremnts */}
+        <div className="form-control">
           <label className="label">
             <span className="label-text">Job Requiremnts</span>
           </label>
-         
+
           <textarea
             className="textarea textarea-bordered w-full"
-            placeholder="put each requiremnts in a new line" name="requiremnts"
+            placeholder="put each requiremnts in a new line"
+            name="requiremnts"
           ></textarea>
         </div>
         {/* responsibilities */}
@@ -136,14 +146,15 @@ const AddJob = () => {
           <label className="label">
             <span className="label-text">Job Responsibilities</span>
           </label>
-         
+
           <textarea
             className="textarea textarea-bordered w-full"
-            placeholder="write each responsibilities in a new line" name="responsibilities"
+            placeholder="write each responsibilities in a new line"
+            name="responsibilities"
           ></textarea>
         </div>
-         {/* Hr name */}
-         <div className="form-control">
+        {/* Hr name */}
+        <div className="form-control">
           <label className="label">
             <span className="label-text">HR Name</span>
           </label>
