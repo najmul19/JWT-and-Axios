@@ -85,6 +85,7 @@ async function run() {
     app.post("/job-applications", async (req, res) => {
       const application = req.body;
       const result = await jobApplicationCollections.insertOne(application);
+      // update for count job
       res.send(result);
     });
   } finally {
