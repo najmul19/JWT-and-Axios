@@ -12,7 +12,7 @@ const HotJobCard = ({ job }) => {
     salaryRange,
   } = job;
   return (
-    <div className="card card-compact bg-base-100 w-96 shadow-xl">
+    <div className="card card-compact bg-base-100 max-w-96 shadow-xl">
       <div className="flex gap-1 m-2">
         <figure>
           <img className="w-16" src={company_logo} alt="company_logo" />

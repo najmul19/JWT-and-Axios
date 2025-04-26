@@ -62,6 +62,7 @@ async function run() {
           application.title = result.title;
           application.company = result.company;
           application.company_logo = result.company_logo;
+          application.location = result.location;
         }
       }
 
