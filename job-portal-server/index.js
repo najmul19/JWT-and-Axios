@@ -32,6 +32,9 @@ async function run() {
     );
     // jobs related apis
     const jobsCollections = client.db("jobPortal").collection("jobs");
+    const jobApplicationCollections = client
+      .db("jobPortal")
+      .collection("job_applications");
     app.get("/jobs", async (req, res) => {
       const cursor = jobsCollections.find();
       const result = await cursor.toArray();
@@ -40,8 +43,34 @@ async function run() {
     app.get("/jobs/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = await jobsCollections.findOne(query)
-      res.send(result)
+      const result = await jobsCollections.findOne(query);
+      res.send(result);
+    });
+
+    // job application apis
+    app.get("/job-application", async (req, res) => {
+      const email = req.query.email;
+      const query = { applicant_email: email };
+      const result = await jobApplicationCollections.find(query).toArray();
+
+      // not the best way
+      for (const application of result) {
+        console.log(application.job_id);
+        const query = { _id: new ObjectId(application.job_id) };
+        const result = await jobsCollections.findOne(query);
+        if (result) {
+          application.title = result.title;
+          application.company = result.company;
+          application.company_logo = result.company_logo;
+        }
+      }
+
+      res.send(result);
+    });
+    app.post("/job-applications", async (req, res) => {
+      const application = req.body;
+      const result = await jobApplicationCollections.insertOne(application);
+      res.send(result);
     });
   } finally {
     // Ensures that the client will close when you finish/error
