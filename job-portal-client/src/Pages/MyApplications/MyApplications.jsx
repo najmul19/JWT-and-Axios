@@ -61,6 +61,7 @@ const MyApplications = () => {
                     Desktop Support Technician
                   </span>
                 </td>
+                
                 <td>Purple</td>
                 <th>
                   <button className="btn btn-ghost btn-xs">X</button>

@@ -39,7 +39,13 @@ async function run() {
     // jobs related apis
 
     app.get("/jobs", async (req, res) => {
-      const cursor = jobsCollections.find();
+      // update for reqruiter
+      const email = req.query.email;
+      let query = {};
+      if(email){
+        query={hr_email: email}
+      }
+      const cursor = jobsCollections.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -51,7 +57,7 @@ async function run() {
     });
     app.post("/jobs", async (req, res) => {
       const newJob = req.body;
-      const result = jobsCollections.insertOne(newJob);
+      const result = await jobsCollections.insertOne(newJob);
       res.send(result);
     });
 

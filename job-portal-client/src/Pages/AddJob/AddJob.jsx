@@ -1,8 +1,10 @@
 import React from "react";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 const AddJob = () => {
-    const {user} = useAuth()
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const handleAddJob = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -11,8 +13,8 @@ const AddJob = () => {
     console.log(initialData);
     const { min, max, currency, ...newJob } = initialData;
     console.log(newJob);
-    newJob.salarayRange = { min, max, currency }; // nasted object
-    newJob.requiremnts = newJob.requiremnts.split("\n");
+    newJob.salaryRange = { min, max, currency }; // nasted object
+    newJob.requirements = newJob.requirements.split("\n");
     newJob.responsibilities = newJob.responsibilities.split("\n");
     console.log(newJob);
     fetch("http://localhost:5000/jobs", {
@@ -32,7 +34,7 @@ const AddJob = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          navigate("/myapplications");
+          navigate("/mypostedjobs");
         }
       });
   };
@@ -69,9 +71,13 @@ const AddJob = () => {
         {/* type */}
         <div className="form-control">
           <label className="label w-full">
-            <span className="label-text">Job Location</span>
+            <span className="label-text">Job Type</span>
           </label>
-          <select name="jobType" defaultValue='Pic a Job Type' className="select select-bordered w-full max-w-xs">
+          <select
+            name="jobType"
+            defaultValue="Pic a Job Type"
+            className="select select-bordered w-full max-w-xs"
+          >
             <option disabled>Pic a Job Type</option>
             <option>Full-time</option>
             <option>Intern</option>
@@ -83,7 +89,11 @@ const AddJob = () => {
           <label className="label w-full">
             <span className="label-text">Job Field</span>
           </label>
-          <select name="category" defaultValue='Pick a Job Category' className="select select-bordered w-full max-w-xs">
+          <select
+            name="category"
+            defaultValue="Pick a Job Category"
+            className="select select-bordered w-full max-w-xs"
+          >
             <option disabled>Pick a Job Category</option>
             <option>Enginnering</option>
             <option>Marketing</option>
@@ -97,6 +107,7 @@ const AddJob = () => {
             <label className="label">
               <span className="label-text">Salary Range</span>
             </label>
+            
             <input
               name="min"
               type="text"
@@ -116,7 +127,7 @@ const AddJob = () => {
           </div>
           <div className="form-control">
             <select
-            defaultValue='Currency'
+              defaultValue="Currency"
               name="currency"
               className="select select-bordered w-full max-w-xs"
             >
@@ -127,6 +138,7 @@ const AddJob = () => {
             </select>
           </div>
         </div>
+
         {/* description */}
         <div className="form-control">
           <label className="label">
@@ -154,16 +166,16 @@ const AddJob = () => {
           />
         </div>
 
-        {/* requiremnts */}
+        {/* requirements */}
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Job Requiremnts</span>
+            <span className="label-text">Job Requirements</span>
           </label>
 
           <textarea
             className="textarea textarea-bordered w-full"
-            placeholder="put each requiremnts in a new line"
-            name="requiremnts"
+            placeholder="put each requirements in a new line"
+            name="requirements"
           ></textarea>
         </div>
         {/* responsibilities */}
@@ -184,8 +196,7 @@ const AddJob = () => {
             <span className="label-text">HR Name</span>
           </label>
           <input
-          defaultValue={user?.email}
-            name="hrname"
+            name="hr_name"
             type="text"
             placeholder="HR Name"
             className="input w-full input-bordered"
@@ -198,9 +209,23 @@ const AddJob = () => {
             <span className="label-text">HR Email</span>
           </label>
           <input
-            name="hremail"
+            defaultValue={user?.email}
+            name="hr_email"
             type="text"
             placeholder="HR Email"
+            className="input w-full input-bordered"
+            required
+          />
+        </div>
+        {/* application Deadline */}
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Deadline</span>
+          </label>
+          <input
+            name="applicationDeadline"
+            type="date"
+            placeholder="Deadline"
             className="input w-full input-bordered"
             required
           />
@@ -211,7 +236,7 @@ const AddJob = () => {
             <span className="label-text">Company Logo</span>
           </label>
           <input
-            name="companylogo"
+            name="company_logo"
             type="text"
             placeholder="Company Logo URL"
             className="input w-full input-bordered"
