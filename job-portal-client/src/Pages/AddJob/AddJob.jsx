@@ -5,12 +5,13 @@ const AddJob = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     // console.log(formData.entries());
-    const initialData = Object.fromEntries(formData.entries());//formData.entries() key valu and Object.fromEntries convert it in object from array of array
+    const initialData = Object.fromEntries(formData.entries()); //formData.entries() key valu and Object.fromEntries convert it in object from array of array
     console.log(initialData);
-    const {min,max,currency, ...newJob} = initialData;
-    console.log(newJob)
-    newJob.salarayRange ={min,max,currency} // nasted object
-    console.log(newJob)
+    const { min, max, currency, ...newJob } = initialData;
+    console.log(newJob);
+    newJob.salarayRange = { min, max, currency }; // nasted object
+    newJob.requiremnts = newJob.requiremnts.split('\n');
+    console.log(newJob);
   };
   return (
     <div>
@@ -95,17 +96,17 @@ const AddJob = () => {
             />
           </div>
           <div className="form-control">
-            <select name="currency" className="select select-bordered w-full max-w-xs">
-            
+            <select
+              name="currency"
+              className="select select-bordered w-full max-w-xs"
+            >
               <option disabled selected>
                 Currency
               </option>
               <option>BDT</option>
               <option>USD</option>
               <option>INR</option>
-              
             </select>
-            
           </div>
         </div>
         {/* description */}
