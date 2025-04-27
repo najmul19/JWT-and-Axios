@@ -24,8 +24,8 @@ const MyApplications = () => {
               </th>
               <th>Name</th>
               <th>Job</th>
-              <th>Favorite Color</th>
-              <th></th>
+              <th>Job Status</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -55,14 +55,14 @@ const MyApplications = () => {
                   </div>
                 </td>
                 <td>
-                  Zemlak, Daniel and Leannon
+                  {job.applicant_email}
                   <br />
                   <span className="badge badge-ghost badge-sm">
-                    Desktop Support Technician
+                    {job.resume}
                   </span>
                 </td>
                 
-                <td>Purple</td>
+                <td>{job.status}</td>
                 <th>
                   <button className="btn btn-ghost btn-xs">X</button>
                 </th>
