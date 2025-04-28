@@ -9,7 +9,7 @@ const JobDetails = () => {
       <p>Apply For: {company} </p>
       <p>Apply For: {deadline} </p>
       <Link to={`/jobapply/${_id}`}>
-        <button className="btn btn-primary ">Apply Now</button>
+        <button className=" mt-4 btn btn-primary  hover:scale-90 transition-transform duration-300">Apply Now</button>
       </Link>
     </div>
   );

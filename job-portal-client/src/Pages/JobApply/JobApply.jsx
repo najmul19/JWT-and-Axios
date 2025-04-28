@@ -85,7 +85,7 @@ const JobApply = () => {
           />
         </div>
         <div className="form-control mt-6">
-          <button className="btn w-full btn-primary">Job Apply</button>
+          <button className="btn w-full btn-primary hover:scale-90 transition-transform duration-300">Job Apply</button>
         </div>
       </form>
     </div>

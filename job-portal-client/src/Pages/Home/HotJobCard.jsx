@@ -12,7 +12,7 @@ const HotJobCard = ({ job }) => {
     salaryRange,
   } = job;
   return (
-    <div className="card card-compact bg-base-100 max-w-96 shadow-xl">
+    <div className="card card-compact bg-base-100 max-w-96 shadow-xl hover:scale-105 transition-transform duration-300">
       <div className="flex gap-1 m-2">
         <figure>
           <img className="w-16" src={company_logo} alt="company_logo" />
@@ -48,7 +48,7 @@ const HotJobCard = ({ job }) => {
             {salaryRange.max} {salaryRange.currency}
           </p>
           <Link to={`/jobs/${job._id}`}>
-          <button className="btn btn-primary">Apply Now</button>
+          <button className="btn btn-primary hover:scale-105 transition-transform duration-300">Apply Now</button>
           </Link>
         </div>
       </div>
