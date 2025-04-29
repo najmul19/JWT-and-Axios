@@ -6,11 +6,14 @@ const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 
-app.use(cors({
-  origin: ['http://localhost:5173'],// access for react frontend url
-  credentials: true // enable cookies from react client
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:5173"], // access for react frontend url
+    credentials: true, // enable cookies from react client
+  })
+);
 app.use(express.json());
+app.use(cookieParser())
 // DB_USER = job_hunter
 // DB_PASS = gFrXkacMHUBW2BCP
 
@@ -46,12 +49,11 @@ async function run() {
       const user = req.body;
       const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "1h" });
       res
-      .cookie('token', token, {
-        httpOnly: true,
-        secure: false,// http://localhost:5173/signin 
-
-      })
-      .send({success: true});
+        .cookie("token", token, {
+          httpOnly: true,
+          secure: false, // http://localhost:5173/signin
+        })
+        .send({ success: true });
     });
 
     app.get("/jobs", async (req, res) => {
@@ -81,6 +83,7 @@ async function run() {
     app.get("/job-application", async (req, res) => {
       const email = req.query.email;
       const query = { applicant_email: email };
+      console.log("cookies", req.cookies);
       const result = await jobApplicationCollections.find(query).toArray();
 
       // not the best way
