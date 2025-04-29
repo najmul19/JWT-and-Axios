@@ -38,7 +38,7 @@ async function run() {
       .collection("job_applications");
 
     // jobs related apis
-    app.post("jwt", async (req, res) => {
+    app.post("/jwt", async (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, "secret", { expiresIn: "1h" });
       res.send(token);
