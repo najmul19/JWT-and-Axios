@@ -28,12 +28,10 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized Access" });
     }
+    req.user = decoded;
     next();
   });
-  
 };
-// DB_USER = job_hunter
-// DB_PASS = gFrXkacMHUBW2BCP
 
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.zof5niq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -102,7 +100,10 @@ async function run() {
     app.get("/job-application", verifyToken, async (req, res) => {
       const email = req.query.email;
       const query = { applicant_email: email };
-      console.log("cookies", req.cookies);
+      // console.log("cookies", req.cookies);
+      if (req.user.email !== req.query.email) { // ekjoner token diye onno joner ta acces kora theke bachay
+        return res.status(403).send({ message: "Forbideen access" });
+      }
       const result = await jobApplicationCollections.find(query).toArray();
 
       // not the best way
