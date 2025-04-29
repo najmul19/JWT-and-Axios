@@ -18,8 +18,9 @@ const SIgnIn = () => {
 
     signInuser(email, password)
       .then((res) => {
-        // console.log("signIn", res.user);
-        navigate(from)
+        console.log("signIn", res.user.email);
+        const user = {email: email}
+        // navigate(from)
       })
       .catch((e) => {
         console.log("ERROR", e.message);
