@@ -13,7 +13,25 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
+const logger = (req, res, next) => {
+  console.log("inide the logger");
+  next();
+};
+const verifyToken = (req, res, next) => {
+  // console.log("inide the verify token midlware", req.cookies);
+  const token = req?.cookies?.token;
+  if (!token) {
+    return res.status(401).send({ message: "Unauthorized Access" }); //unauthorised
+  }
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: "Unauthorized Access" });
+    }
+    next();
+  });
+  
+};
 // DB_USER = job_hunter
 // DB_PASS = gFrXkacMHUBW2BCP
 
@@ -56,7 +74,8 @@ async function run() {
         .send({ success: true });
     });
 
-    app.get("/jobs", async (req, res) => {
+    app.get("/jobs", logger, async (req, res) => {
+      console.log("now inside the api callback");
       // update for reqruiter
       const email = req.query.email;
       let query = {};
@@ -80,7 +99,7 @@ async function run() {
     });
 
     // job application apis
-    app.get("/job-application", async (req, res) => {
+    app.get("/job-application", verifyToken, async (req, res) => {
       const email = req.query.email;
       const query = { applicant_email: email };
       console.log("cookies", req.cookies);
