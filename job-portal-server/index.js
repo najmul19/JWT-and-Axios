@@ -6,7 +6,10 @@ const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173'],// access for react frontend url
+  credentials: true // enable cookies from react client
+}));
 app.use(express.json());
 // DB_USER = job_hunter
 // DB_PASS = gFrXkacMHUBW2BCP
