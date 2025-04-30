@@ -72,6 +72,16 @@ async function run() {
         .send({ success: true });
     });
 
+    //  handle logout to remove token from the cookies
+    app.post("/logout", (req, res) => {
+      res
+        .clearCookie("token", {
+          httpOnly: true,
+          secure: false, // for local
+        })
+        .send({ success: true });
+    });
+
     app.get("/jobs", logger, async (req, res) => {
       console.log("now inside the api callback");
       // update for reqruiter
@@ -101,7 +111,8 @@ async function run() {
       const email = req.query.email;
       const query = { applicant_email: email };
       // console.log("cookies", req.cookies);
-      if (req.user.email !== req.query.email) { // ekjoner token diye onno joner ta acces kora theke bachay
+      if (req.user.email !== req.query.email) {
+        // ekjoner token diye onno joner ta acces kora theke bachay
         return res.status(403).send({ message: "Forbideen access" });
       }
       const result = await jobApplicationCollections.find(query).toArray();
