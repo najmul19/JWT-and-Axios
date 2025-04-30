@@ -111,9 +111,9 @@ async function run() {
       const email = req.query.email;
       const query = { applicant_email: email };
       // console.log("cookies", req.cookies);
-      if (req.user.email !== req.query.email) {
+      if (req.user.email !== req.query.email) { // token email !== query email
         // ekjoner token diye onno joner ta acces kora theke bachay
-        return res.status(403).send({ message: "Forbideen access" });
+        return res.status(403).send({ message: "Forbidden access" });
       }
       const result = await jobApplicationCollections.find(query).toArray();
 
