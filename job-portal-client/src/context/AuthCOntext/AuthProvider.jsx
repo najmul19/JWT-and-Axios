@@ -46,15 +46,21 @@ const AuthProvider = ({ children }) => {
       if(currentUser?.email){
         const user = {email: currentUser.email}
         axios.post('http://localhost:5000/jwt',user, {withCredentials: true})
-        .then(res=>console.log(res.data))
+        .then(res=>{
+          console.log('login token--->',res.data);
+          setLoading(false);
+        })
       }
       else {
         axios.post('http://localhost:5000/jwt',{},{
           withCredentials: true
         })
-        .then(res=>console.log("logout--->",res.data));
+        .then(res=>{
+          console.log("logout--->",res.data)
+          setLoading(false);
+        });
       }
-      setLoading(false);
+     
     });
     return () => {
       unSubscribe();
