@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AuthContext from "./AuthContext";
+import axios from "axios";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -42,6 +43,11 @@ const AuthProvider = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       console.log("state captured", currentUser)
+      if(currentUser?.email){
+        const user = {email: currentUser.email}
+        axios.post('http://localhost:5000/jwt',user)
+        .then(res=>console.log(res.data))
+      }
       setLoading(false);
     });
     return () => {
