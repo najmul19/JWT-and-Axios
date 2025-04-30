@@ -8,7 +8,11 @@ const port = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // access for react frontend url
+    origin: [
+      "http://localhost:5173",
+      "https://job-portal-4dce4.web.app",
+      "https://job-portal-4dce4.firebaseapp.com",
+    ], // access for react frontend url
     credentials: true, // enable cookies from react client
   })
 );
@@ -48,12 +52,12 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
     // jobs related apis
     const jobsCollections = client.db("jobPortal").collection("jobs");
     const jobApplicationCollections = client
@@ -67,7 +71,8 @@ async function run() {
       res
         .cookie("token", token, {
           httpOnly: true,
-          secure: false, // http://localhost:5173/signin
+         // secure: false, // http://localhost:5173/signin
+         secure: process.env.NODE_ENV==='production'
         })
         .send({ success: true });
     });
@@ -77,7 +82,8 @@ async function run() {
       res
         .clearCookie("token", {
           httpOnly: true,
-          secure: false, // for local
+          // secure: false,  for local
+          secure: process.env.NODE_ENV==='production'
         })
         .send({ success: true });
     });
@@ -111,7 +117,8 @@ async function run() {
       const email = req.query.email;
       const query = { applicant_email: email };
       // console.log("cookies", req.cookies);
-      if (req.user.email !== req.query.email) { // token email !== query email
+      if (req.user.email !== req.query.email) {
+        // token email !== query email
         // ekjoner token diye onno joner ta acces kora theke bachay
         return res.status(403).send({ message: "Forbidden access" });
       }
