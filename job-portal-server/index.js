@@ -71,8 +71,8 @@ async function run() {
       res
         .cookie("token", token, {
           httpOnly: true,
-         // secure: false, // http://localhost:5173/signin
-         secure: process.env.NODE_ENV==='production'
+          // secure: false, // http://localhost:5173/signin
+          secure: process.env.NODE_ENV === "production",
         })
         .send({ success: true });
     });
@@ -83,7 +83,7 @@ async function run() {
         .clearCookie("token", {
           httpOnly: true,
           // secure: false,  for local
-          secure: process.env.NODE_ENV==='production'
+          secure: process.env.NODE_ENV === "production",
         })
         .send({ success: true });
     });
@@ -92,23 +92,32 @@ async function run() {
       console.log("now inside the api callback");
       // update for reqruiter
       const email = req.query.email;
-      const sort  = req.query?.sort;
+      const sort = req.query?.sort;
       const search = req.query?.search;
+      const min = req.query?.min;
+      const max = req.query?.max;
 
       let query = {};
       // new 5/2/2025
       let sortQuery = {};
-      
+
       if (email) {
         query = { hr_email: email };
       }
-      if(sort=="true") {
-        sortQuery={"salaryRange.min": -1} //descending order, as salary is in objec that why write like this
+      if (sort == "true") {
+        sortQuery = { "salaryRange.min": -1 }; //descending order, as salary is in objec that why write like this
       }
-      if(search) {
-        query.location={$regex:search , $options:'i'} // $options:'i' case insecnsitive 
+      if (search) {
+        query.location = { $regex: search, $options: "i" }; // $options:'i' case insecnsitive
       }
-      
+      if (min && max) {
+        query = {
+          ...query,
+          "salaryRange.min": { $gte: parseInt(min) }, //grater then
+          "salaryRange.max": { $lte: parseInt(max) }, // less then
+        };
+      }
+
       const cursor = jobsCollections.find(query).sort(sortQuery);
       const result = await cursor.toArray();
       res.send(result);

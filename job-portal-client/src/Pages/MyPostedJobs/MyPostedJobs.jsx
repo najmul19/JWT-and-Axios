@@ -29,7 +29,7 @@ const MyPostedJobs = () => {
           <tbody>
             {/* row 1 */}
             {jobs.map((job,indx) => (
-              <tr>
+              <tr key={indx}>
                 <th>{indx+1}</th>
                 <td>{job.title}</td>
                 <td>{job.applicationDeadline}</td>
