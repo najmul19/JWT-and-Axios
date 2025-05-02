@@ -92,11 +92,18 @@ async function run() {
       console.log("now inside the api callback");
       // update for reqruiter
       const email = req.query.email;
+      const sort  = req.query?.sort;
       let query = {};
+      // new 5/2/2025
+      let sortQuery = {};
+      
       if (email) {
         query = { hr_email: email };
       }
-      const cursor = jobsCollections.find(query);
+      if(sort=="true") {
+        sortQuery={"salaryRange.min": -1} //descending order, as salary is in objec that why write like this
+      }
+      const cursor = jobsCollections.find(query).sort(sortQuery);
       const result = await cursor.toArray();
       res.send(result);
     });
