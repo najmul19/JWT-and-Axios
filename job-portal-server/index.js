@@ -93,6 +93,8 @@ async function run() {
       // update for reqruiter
       const email = req.query.email;
       const sort  = req.query?.sort;
+      const search = req.query?.search;
+
       let query = {};
       // new 5/2/2025
       let sortQuery = {};
@@ -103,6 +105,10 @@ async function run() {
       if(sort=="true") {
         sortQuery={"salaryRange.min": -1} //descending order, as salary is in objec that why write like this
       }
+      if(search) {
+        query.location={$regex:search , $options:'i'} // $options:'i' case insecnsitive 
+      }
+      
       const cursor = jobsCollections.find(query).sort(sortQuery);
       const result = await cursor.toArray();
       res.send(result);
