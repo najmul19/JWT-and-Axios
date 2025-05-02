@@ -13,7 +13,8 @@ const HotJobs = () => {
       });
   }, []);
   return <div>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <h2 className="text-4xl mt-10 text-center font-bold">Hot Jobs</h2>
+    <div className="grid py-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
     
         {
             

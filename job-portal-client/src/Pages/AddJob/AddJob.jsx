@@ -110,7 +110,7 @@ const AddJob = () => {
             
             <input
               name="min"
-              type="text"
+              type="number"
               placeholder="Min"
               className="input w-full input-bordered"
               required
@@ -119,7 +119,7 @@ const AddJob = () => {
           <div className="form-control">
             <input
               name="max"
-              type="text"
+              type="number"
               placeholder="Max"
               className="input w-full input-bordered"
               required
@@ -209,6 +209,7 @@ const AddJob = () => {
             <span className="label-text">HR Email</span>
           </label>
           <input
+          readOnly
             defaultValue={user?.email}
             name="hr_email"
             type="text"
